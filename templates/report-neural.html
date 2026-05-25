@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DAMC — Neural Flow Report</title>
+<meta property="og:title" content="DAMC AI时代价值评估报告 — Neural Flow">
+<meta property="og:description" content="Neural Flow AI-native assessment report">
+<meta name="description" content="DAMC 评估报告 — Neural Flow Edition">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #030012;
+    --bg-secondary: #0a0628;
+    --bg-card: rgba(120, 80, 255, 0.04);
+    --bg-card-hover: rgba(120, 80, 255, 0.08);
+    --border: rgba(120, 80, 255, 0.12);
+    --text-primary: #e4deff;
+    --text-secondary: #8a7cb8;
+    --text-muted: #4a3d6a;
+    --accent: #7c5cff;
+    --accent-glow: rgba(124, 92, 255, 0.4);
+    --color-d: #00c8ff;
+    --color-a: #ff4da6;
+    --color-m: #7c5cff;
+    --color-c: #00e89d;
+    --color-d-dim: rgba(0, 200, 255, 0.10);
+    --color-a-dim: rgba(255, 77, 166, 0.10);
+    --color-m-dim: rgba(124, 92, 255, 0.10);
+    --color-c-dim: rgba(0, 232, 157, 0.10);
+    --neural-pulse: rgba(124, 92, 255, 0.06);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-pill: 100px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ========= NEURAL NETWORK SVG BACKGROUND ========= */
+  .neural-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+  .neural-bg path {
+    fill: none;
+    stroke: rgba(124, 92, 255, 0.18);
+    stroke-width: 0.8;
+  }
+  .neural-bg circle {
+    fill: rgba(124, 92, 255, 0.25);
+  }
+  .neural-path-1 { stroke-dasharray: 800; animation: neuralFlow1 12s linear infinite; }
+  .neural-path-2 { stroke-dasharray: 600; animation: neuralFlow2 10s linear infinite; }
+  .neural-path-3 { stroke-dasharray: 900; animation: neuralFlow3 14s linear infinite; }
+  .neural-path-4 { stroke-dasharray: 700; animation: neuralFlow1 11s linear infinite reverse; }
+  .neural-path-5 { stroke-dasharray: 500; animation: neuralFlow2 9s linear infinite; }
+  .neural-path-6 { stroke-dasharray: 850; animation: neuralFlow3 13s linear infinite reverse; }
+  .neural-path-7 { stroke-dasharray: 650; animation: neuralFlow1 15s linear infinite; }
+  .neural-path-8 { stroke-dasharray: 750; animation: neuralFlow2 12s linear infinite reverse; }
+  .neural-path-9 { stroke-dasharray: 550; animation: neuralFlow3 10s linear infinite; }
+  .neural-path-10 { stroke-dasharray: 950; animation: neuralFlow1 16s linear infinite reverse; }
+
+  @keyframes neuralFlow1 {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1600; }
+  }
+  @keyframes neuralFlow2 {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1200; }
+  }
+  @keyframes neuralFlow3 {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -1800; }
+  }
+
+  /* ========= BIOLUMINESCENT GLOW SPOTS ========= */
+  .glow-spot {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(80px);
+  }
+  .glow-spot-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.12) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation: breathe 8s ease-in-out infinite;
+  }
+  .glow-spot-2 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.08) 0%, transparent 70%);
+    top: 300px; right: -200px;
+    animation: breathe 10s ease-in-out infinite 2s;
+  }
+  .glow-spot-3 {
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(255, 77, 166, 0.07) 0%, transparent 70%);
+    top: 900px; left: -150px;
+    animation: breathe 9s ease-in-out infinite 4s;
+  }
+  .glow-spot-4 {
+    width: 550px; height: 550px;
+    background: radial-gradient(circle, rgba(0, 232, 157, 0.08) 0%, transparent 70%);
+    top: 1600px; right: -100px;
+    animation: breathe 11s ease-in-out infinite 1s;
+  }
+  .glow-spot-5 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.10) 0%, transparent 70%);
+    top: 2400px; left: 50%;
+    transform: translateX(-50%);
+    animation: breathe 7s ease-in-out infinite 3s;
+  }
+
+  @keyframes breathe {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  /* ========= PARTICLE DOTS ========= */
+  .particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(124, 92, 255, 0.3);
+    border-radius: 50%;
+  }
+  .particle-float {
+    animation: particleFloat 6s ease-in-out infinite alternate;
+  }
+  @keyframes particleFloat {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-15px) translateX(8px); }
+  }
+
+  /* ========= MAIN CONTAINER ========= */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px 60px;
+  }
+
+  /* ========= GRADIENT MESH CARD ========= */
+  .card {
+    background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                linear-gradient(135deg, rgba(0,200,255,0.2), rgba(124,92,255,0.3), rgba(255,77,166,0.2)) border-box;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 24px;
+    position: relative;
+    backdrop-filter: blur(8px);
+    transition: background 0.3s ease;
+  }
+  .card:hover {
+    background: linear-gradient(var(--bg-card-hover), var(--bg-card-hover)) padding-box,
+                linear-gradient(135deg, rgba(0,200,255,0.3), rgba(124,92,255,0.45), rgba(255,77,166,0.3)) border-box;
+  }
+
+  /* ========= FLOWING SECTION DIVIDERS ========= */
+  .section-divider {
+    width: 100%;
+    height: 24px;
+    margin: 12px 0;
+    opacity: 0.3;
+  }
+
+  /* ========= HEADER ========= */
+  .header {
+    text-align: center;
+    padding: 20px 0 30px;
+  }
+  .header-brand {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    letter-spacing: 6px;
+    color: var(--accent);
+    text-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(124,92,255,0.15);
+  }
+  .header-tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+  .header-pills {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    padding: 5px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+
+  /* ========= ARCHETYPE HERO ========= */
+  .hero {
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+  }
+  .hero-glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(124,92,255,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: breathe 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .hero-emoji {
+    font-size: 64px;
+    display: inline-block;
+    animation: emojiFloat 4s ease-in-out infinite;
+    position: relative;
+  }
+  @keyframes emojiFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    margin-top: 16px;
+    color: var(--text-primary);
+    position: relative;
+  }
+  .hero-tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  /* Score ring */
+  .score-ring-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 28px;
+    position: relative;
+  }
+  .score-ring-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  .score-ring-bg {
+    fill: none;
+    stroke: rgba(124,92,255,0.08);
+    stroke-width: 6;
+  }
+  .score-ring-fill {
+    fill: none;
+    stroke: url(#ringGradient);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+  .score-ring-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .score-ring-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 32px;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .score-ring-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .grade-badge {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px 24px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(135deg, rgba(124,92,255,0.2), rgba(0,200,255,0.15));
+    border: 1px solid rgba(124,92,255,0.3);
+    color: var(--text-primary);
+    letter-spacing: 2px;
+  }
+
+  /* ========= RADAR CHART ========= */
+  .radar-section {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .radar-wrap {
+    position: relative;
+    width: 300px;
+    height: 300px;
+  }
+  #radar {
+    width: 100%;
+    height: 100%;
+  }
+  .radar-label {
+    position: absolute;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .radar-label-d { top: -4px; left: 50%; transform: translateX(-50%); color: var(--color-d); }
+  .radar-label-a { top: 50%; right: -36px; transform: translateY(-50%); color: var(--color-a); }
+  .radar-label-m { bottom: -4px; left: 50%; transform: translateX(-50%); color: var(--color-m); }
+  .radar-label-c { top: 50%; left: -36px; transform: translateY(-50%); color: var(--color-c); }
+
+  /* ========= SECTION TITLES ========= */
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title-icon {
+    font-size: 22px;
+  }
+
+  /* ========= DIMENSION CARDS (2x2 grid) ========= */
+  .dim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dim-card {
+    background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                linear-gradient(135deg, var(--dim-color-a, rgba(124,92,255,0.2)), var(--dim-color-b, rgba(124,92,255,0.1))) border-box;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dim-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, var(--dim-color-a, rgba(124,92,255,0.03)), transparent);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .dim-card[data-dim="D"] { --dim-color-a: rgba(0,200,255,0.25); --dim-color-b: rgba(0,200,255,0.08); }
+  .dim-card[data-dim="D"] .dim-card-bg { background: rgba(0,200,255,0.03); }
+  .dim-card[data-dim="A"] { --dim-color-a: rgba(255,77,166,0.25); --dim-color-b: rgba(255,77,166,0.08); }
+  .dim-card[data-dim="A"] .dim-card-bg { background: rgba(255,77,166,0.03); }
+  .dim-card[data-dim="M"] { --dim-color-a: rgba(124,92,255,0.25); --dim-color-b: rgba(124,92,255,0.08); }
+  .dim-card[data-dim="M"] .dim-card-bg { background: rgba(124,92,255,0.03); }
+  .dim-card[data-dim="C"] { --dim-color-a: rgba(0,232,157,0.25); --dim-color-b: rgba(0,232,157,0.08); }
+  .dim-card[data-dim="C"] .dim-card-bg { background: rgba(0,232,157,0.03); }
+
+  .dim-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .dim-letter {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1;
+  }
+  .dim-letter[data-dim="D"] { color: var(--color-d); text-shadow: 0 0 20px rgba(0,200,255,0.4); }
+  .dim-letter[data-dim="A"] { color: var(--color-a); text-shadow: 0 0 20px rgba(255,77,166,0.4); }
+  .dim-letter[data-dim="M"] { color: var(--color-m); text-shadow: 0 0 20px rgba(124,92,255,0.4); }
+  .dim-letter[data-dim="C"] { color: var(--color-c); text-shadow: 0 0 20px rgba(0,232,157,0.4); }
+
+  .dim-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--text-primary);
+  }
+  .dim-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    position: relative;
+  }
+
+  /* Neural connection decoration */
+  .neural-deco {
+    position: absolute;
+    top: 12px; right: 12px;
+    opacity: 0.2;
+  }
+
+  /* Sub score bars */
+  .sub-scores { position: relative; }
+  .sub-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .sub-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-muted);
+    width: 68px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .sub-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(124,92,255,0.06);
+    border-radius: 4px;
+    overflow: visible;
+    position: relative;
+  }
+  .sub-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 0;
+  }
+  .sub-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: -5px; top: -5px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: currentColor;
+    filter: blur(6px);
+    opacity: 0.5;
+  }
+  .sub-bar-fill[data-dim="D"] { background: linear-gradient(90deg, rgba(0,200,255,0.3), var(--color-d)); color: var(--color-d); }
+  .sub-bar-fill[data-dim="A"] { background: linear-gradient(90deg, rgba(255,77,166,0.3), var(--color-a)); color: var(--color-a); }
+  .sub-bar-fill[data-dim="M"] { background: linear-gradient(90deg, rgba(124,92,255,0.3), var(--color-m)); color: var(--color-m); }
+  .sub-bar-fill[data-dim="C"] { background: linear-gradient(90deg, rgba(0,232,157,0.3), var(--color-c)); color: var(--color-c); }
+
+  .sub-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-secondary);
+    width: 28px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  /* ========= C DIMENSION SPECIAL ========= */
+  .c-fit {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-c);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .c-paths-list {
+    list-style: none;
+    position: relative;
+  }
+  .c-paths-list li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 6px 0 6px 18px;
+    position: relative;
+  }
+  .c-paths-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-c);
+    box-shadow: 0 0 8px rgba(0,232,157,0.4);
+  }
+
+  /* ========= SCAN EVIDENCE ========= */
+  .scan-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .scan-capsule {
+    text-align: center;
+    padding: 16px 8px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--bg-card), rgba(120,80,255,0.02));
+    border: 1px solid var(--border);
+  }
+  .scan-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+  .scan-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ========= INSIGHTS ========= */
+  .insight-section {
+    margin-bottom: 22px;
+  }
+  .insight-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .insight-title-icon { font-size: 18px; }
+  .insight-list {
+    list-style: none;
+    border-left: 2px solid;
+    border-image: linear-gradient(to bottom, var(--accent), transparent) 1;
+    padding-left: 16px;
+  }
+  .insight-list[data-type="distill"] { border-image: linear-gradient(to bottom, var(--color-d), transparent) 1; }
+  .insight-list[data-type="moats"] { border-image: linear-gradient(to bottom, var(--color-m), transparent) 1; }
+  .insight-list[data-type="risks"] { border-image: linear-gradient(to bottom, var(--color-a), transparent) 1; }
+  .insight-list[data-type="actions"] { border-image: linear-gradient(to bottom, var(--color-c), transparent) 1; }
+  .insight-list li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding: 5px 0 5px 12px;
+    position: relative;
+  }
+  .insight-list li::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 14px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+  .insight-list[data-type="distill"] li::before { background: var(--color-d); box-shadow: 0 0 8px rgba(0,200,255,0.4); }
+  .insight-list[data-type="moats"] li::before { background: var(--color-m); box-shadow: 0 0 8px rgba(124,92,255,0.4); }
+  .insight-list[data-type="risks"] li::before { background: var(--color-a); box-shadow: 0 0 8px rgba(255,77,166,0.4); }
+  .insight-list[data-type="actions"] li::before { background: var(--color-c); box-shadow: 0 0 8px rgba(0,232,157,0.4); }
+
+  /* ========= PERCENTILE GAUGES ========= */
+  .pct-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    padding: 10px 0;
+  }
+  .pct-ring-wrap {
+    text-align: center;
+  }
+  .pct-ring-container {
+    position: relative;
+    width: 72px; height: 72px;
+    margin: 0 auto;
+  }
+  .pct-ring-container.large {
+    width: 96px; height: 96px;
+  }
+  .pct-ring-bg {
+    fill: none;
+    stroke: rgba(124,92,255,0.06);
+    stroke-width: 4;
+  }
+  .pct-ring-fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .pct-ring-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--text-primary);
+  }
+  .pct-ring-container.large .pct-ring-text {
+    font-size: 20px;
+  }
+  .pct-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ========= SHARE CARD ========= */
+  .share-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .share-card-left {
+    flex: 1;
+    min-width: 200px;
+  }
+  .share-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .share-card-desc {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .share-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 28px;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), rgba(0,200,255,0.8));
+    color: #fff;
+    letter-spacing: 1px;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .share-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .share-qr {
+    width: 100px; height: 100px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    padding: 6px;
+    background: #fff;
+  }
+  .share-qr img {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* ========= FOOTER ========= */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    letter-spacing: 0.5px;
+  }
+
+  /* ========= RESPONSIVE ========= */
+  @media (max-width: 640px) {
+    .container { padding: 24px 16px 40px; }
+    .header-brand { font-size: 36px; letter-spacing: 4px; }
+    .hero-name { font-size: 28px; }
+    .hero-tagline { font-size: 13px; }
+    .dim-grid { grid-template-columns: 1fr; }
+    .scan-grid { grid-template-columns: repeat(2, 1fr); }
+    .pct-section { gap: 16px; }
+    .share-card { flex-direction: column; text-align: center; }
+    .card { padding: 20px; }
+    .dim-letter { font-size: 26px; }
+    .dim-score { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NEURAL NETWORK SVG BACKGROUND ===== -->
+<svg class="neural-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <!-- Curved paths creating a neural network feel -->
+  <path class="neural-path-1" d="M-50,200 C200,150 350,400 600,300 S900,100 1200,350 S1500,200 1600,280" />
+  <path class="neural-path-2" d="M-50,500 C150,450 300,600 550,480 S800,350 1050,550 S1300,400 1500,500" />
+  <path class="neural-path-3" d="M-50,100 C100,200 400,50 650,200 S950,350 1150,150 S1400,250 1600,100" />
+  <path class="neural-path-4" d="M-50,700 C200,650 400,800 700,680 S1000,550 1250,750 S1450,650 1600,700" />
+  <path class="neural-path-5" d="M-50,350 C180,300 350,500 600,400 S850,250 1100,450 S1350,350 1600,400" />
+  <path class="neural-path-6" d="M-50,600 C150,550 380,700 630,580 S900,450 1150,650 S1400,550 1600,600" />
+  <path class="neural-path-7" d="M-50,50 C250,100 450,200 700,80 S1000,200 1200,50 S1450,150 1600,50" />
+  <path class="neural-path-8" d="M-50,800 C200,750 420,850 670,770 S950,650 1200,830 S1430,740 1600,800" />
+  <path class="neural-path-9" d="M300,0 C350,200 200,400 400,500 S500,700 350,900" />
+  <path class="neural-path-10" d="M1100,0 C1050,180 1200,350 1000,500 S1100,650 1050,900" />
+
+  <!-- Nodes at intersections -->
+  <circle cx="600" cy="300" r="3" /><circle cx="550" cy="480" r="3.5" />
+  <circle cx="650" cy="200" r="3" /><circle cx="700" cy="680" r="3" />
+  <circle cx="400" cy="500" r="2.5" /><circle cx="1100" cy="450" r="3.5" />
+  <circle cx="1150" cy="150" r="3" /><circle cx="350" cy="400" r="2.5" />
+  <circle cx="900" cy="100" r="3" /><circle cx="1050" cy="550" r="3" />
+  <circle cx="200" cy="150" r="2.5" /><circle cx="800" cy="350" r="3" />
+  <circle cx="300" cy="600" r="2.5" /><circle cx="950" cy="650" r="2.5" />
+  <circle cx="150" cy="450" r="2" /><circle cx="1250" cy="750" r="2.5" />
+</svg>
+
+<!-- ===== BIOLUMINESCENT GLOW SPOTS ===== -->
+<div class="glow-spot glow-spot-1"></div>
+<div class="glow-spot glow-spot-2"></div>
+<div class="glow-spot glow-spot-3"></div>
+<div class="glow-spot glow-spot-4"></div>
+<div class="glow-spot glow-spot-5"></div>
+
+<!-- ===== PARTICLE DOTS ===== -->
+<div class="particles" id="particles"></div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-brand">DAMC</div>
+    <div class="header-tagline">AI 时代价值评估报告</div>
+    <div class="header-pills" id="headerPills"></div>
+  </header>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C200,4 400,20 800,12" fill="none" stroke="rgba(124,92,255,0.12)" stroke-width="1"/>
+  </svg>
+
+  <!-- ARCHETYPE HERO -->
+  <section class="card hero" id="heroSection">
+    <div class="hero-glow"></div>
+    <div class="hero-emoji" id="heroEmoji"></div>
+    <div class="hero-name" id="heroName"></div>
+    <div class="hero-tagline" id="heroTagline"></div>
+    <div class="score-ring-wrap">
+      <div class="score-ring-container">
+        <svg viewBox="0 0 120 120" width="120" height="120">
+          <defs>
+            <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--color-d)" />
+              <stop offset="33%" stop-color="var(--accent)" />
+              <stop offset="66%" stop-color="var(--color-a)" />
+              <stop offset="100%" stop-color="var(--color-c)" />
+            </linearGradient>
+          </defs>
+          <circle class="score-ring-bg" cx="60" cy="60" r="54" />
+          <circle class="score-ring-fill" id="scoreRing" cx="60" cy="60" r="54"
+                  stroke-dasharray="339.292" stroke-dashoffset="339.292" />
+        </svg>
+        <div class="score-ring-text">
+          <div class="score-ring-number" id="overallScore">--</div>
+          <div class="score-ring-label">Overall</div>
+        </div>
+      </div>
+      <div class="grade-badge" id="gradeBadge">--</div>
+    </div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C150,20 350,4 550,16 C700,24 800,8 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- RADAR CHART -->
+  <section class="card">
+    <div class="section-title">
+      <span class="section-title-icon">&#x1F578;</span>
+      <span>Dimension Radar</span>
+    </div>
+    <div class="radar-section">
+      <div class="radar-wrap">
+        <svg id="radar" viewBox="0 0 300 300"></svg>
+        <div class="radar-label radar-label-d">D</div>
+        <div class="radar-label radar-label-a">A</div>
+        <div class="radar-label radar-label-m">M</div>
+        <div class="radar-label radar-label-c">C</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C100,18 300,6 500,14 C650,20 800,10 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- DIMENSION CARDS -->
+  <section>
+    <div class="section-title">
+      <span class="section-title-icon">&#x1F9E0;</span>
+      <span>Dimension Breakdown</span>
+    </div>
+    <div class="dim-grid" id="dimGrid"></div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C200,20 400,4 600,16 S800,8 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- SCAN EVIDENCE -->
+  <section class="card">
+    <div class="section-title">
+      <span class="section-title-icon">&#x1F4E1;</span>
+      <span>Scan Evidence</span>
+    </div>
+    <div class="scan-grid" id="scanGrid"></div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C250,4 500,20 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- INSIGHTS -->
+  <section class="card">
+    <div class="section-title">
+      <span class="section-title-icon">&#x2728;</span>
+      <span>AI Insights</span>
+    </div>
+    <div id="insightsContainer"></div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C150,18 350,6 550,16 S750,8 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- PERCENTILE -->
+  <section class="card">
+    <div class="section-title">
+      <span class="section-title-icon">&#x1F30D;</span>
+      <span>Percentile Ranking</span>
+    </div>
+    <div class="pct-section" id="pctSection"></div>
+  </section>
+
+  <!-- WAVE DIVIDER -->
+  <svg class="section-divider" viewBox="0 0 800 24" preserveAspectRatio="none">
+    <path d="M0,12 C200,4 400,20 600,12 S800,8 800,12" fill="none" stroke="rgba(124,92,255,0.10)" stroke-width="1"/>
+  </svg>
+
+  <!-- SHARE CARD -->
+  <section class="card">
+    <div class="share-card">
+      <div class="share-card-left">
+        <div class="share-card-title">Share Your Neural Profile</div>
+        <div class="share-card-desc">Copy your DAMC assessment summary or scan the QR code to learn more.</div>
+        <button class="share-btn" id="shareBtn">Copy Share Card</button>
+      </div>
+      <div class="share-qr">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAEiCAYAAABdvt+2AAAFgElEQVR4nO3cMW4bQRBFQckyyFC+/ymdMpLh3MECGvi1eqsOIHrJxcME3/P+eHx8vgGEfpQfDvCXEAE5IQJyQgTkhAjICRGQEyIgJ0RAToiAnBABOSECckIE5IQIyAkRkBMiICdEQE6IgJwQATkhAnI/T//B1+v36T+5wvP56+j3d/XvVU4/x+n3qvrcLZ6H3z8nIiAnREBOiICcEAE5IQJyQgTkhAjICRGQEyJg37L6qunL4KumL36nL7qnL7Cv8j5/jRMRkBMiICdEQE6IgJwQATkhAnJCBOSECMgJEXDfZfVVlrL/Zmn8PXmf/82JCMgJEZATIiAnREBOiICcEAE5IQJyQgTkhAjIjV9W3011d/T0pfbd7o6+GyciICdEQE6IgJwQATkhAnJCBOSECMgJEZATIiBnWb3c3ZbG1TKdr3EiAnJCBOSECMgJEZATIiAnREBOiICcEAE5IQJy45fVFrBfc/qO6epu6y3vwZbnOM2JCMgJEZATIiAnREBOiICcEAE5IQJyQgTkhAi477L69PKWWYvpaoFd3Vntff4aJyIgJ0RAToiAnBABOSECckIE5IQIyAkRkBMiYN+y2p2839OWZfDp98/7/H84EQE5IQJyQgTkhAjICRGQEyIgJ0RAToiAnBABuffH4+Nzw53BV02/c7kyfUHsd5t19/bpz3UiAnJCBOSECMgJEZATIiAnREBOiICcEAE5IQL23Vl92uml5/Q7jaul9t2Wy9OX/adN/x8PTkRAToiAnBABOSECckIE5IQIyAkRkBMiICdEQG78snrLgvj08nv6Qveq6nmr57jbYvoqJyIgJ0RAToiAnBABOSECckIE5IQIyAkRkBMiIPf+eHx8vi1wt6Vspbqje/oyuHqO15L33okIyAkRkBMiICdEQE6IgJwQATkhAnJCBOSECNi3rJ6+9Jx+Z/V00xfE1R3Y0xfTp51+XiciICdEQE6IgJwQATkhAnJCBOSECMgJEZATIiB3u2V1pVrK3m3xu+VO8ufwZfppTkRAToiAnBABOSECckIE5IQIyAkRkBMiICdEwL5ldaVadG+5A3v691d9bvUcp03/HwpOREBOiICcEAE5IQJyQgTkhAjICRGQEyIgJ0RAbs2y+rTpi+ktd4NvWZKf9rzZe+BEBOSECMgJEZATIiAnREBOiICcEAE5IQJyQgTkfp7+g9VidfrCectStlpCb1lMX/Ua/h6c5kQE5IQIyAkRkBMiICdEQE6IgJwQATkhAnJCBOxbVk9fcJ7+91XPe7fF9GnTl9/PJd/zVU5EQE6IgJwQATkhAnJCBOSECMgJEZATIiAnREBuzZ3V021Zyt7t97WE/j+ciICcEAE5IQJyQgTkhAjICRGQEyIgJ0RAToiAfcvqqyyNd38vV59j+lJ7+t3WW74XJyIgJ0RAToiAnBABOSECckIE5IQIyAkRkBMi4L7L6ukLU4ta3/Mmz+GLfSciICdEQE6IgJwQATkhAnJCBOSECMgJEZATIiA3fll9N6cXsKeX6dVd1NOXwdN/39fw38OJCMgJEZATIiAnREBOiICcEAE5IQJyQgTkhAjIWVZ/U9Vd3lc/9/QCu3re6Yvp5+HvuVqwOxEBOSECckIE5IQIyAkRkBMiICdEQE6IgJwQAfddVm9ZhG75XqbffVzd4Tx9If46/BzV7+tEBOSECMgJEZATIiAnREBOiICcEAE5IQJyQgTk3h+Pj8/6HwHcmxMRkBMiICdEQE6IgJwQATkhAnJCBOSECMgJEZATIiAnREBOiICcEAE5IQIyAkRkBMiICdEQE6IgJwQAbk/EXR3cSh42AQAAAABJRU5ErkJggg==" alt="QR Code">
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Powered by DAMC Model &middot; Claude Code
+  </footer>
+
+</div>
+
+<script>
+// ===== SAMPLE DATA =====
+window.DAMC_DATA = {
+  userName: "AI 产品/创业者",
+  date: "2026-05-25",
+  mbti: "INFJ",
+  archetype: { name: "AI 架构师", emoji: "🏆", tagline: "你站在 AI 时代的食物链顶端 — 有料、不可替代、还会用 AI" },
+  overall: 83,
+  scores: {
+    D: { total: 83, subs: { expertise: 82, methodology: 85, codifiability: 92, standardization: 72, demand: 88 } },
+    A: { total: 75, subs: { creativity: 72, eq: 78, crossDomain: 80, ambiguity: 76, physical: 45, trust: 72 } },
+    M: { total: 92, subs: { environment: 17, skills: 25, automation: 20, memory: 13, advanced: 17 } },
+    C: { total: 83, fit: "AI-Augmented Visionary", paths: ["AI 产品战略顾问", "Skill 生态构建者", "AI 创业导师"] }
+  },
+  percentiles: { D: 96, A: 91, M: 99, C: 98, overall: 99 },
+  insights: {
+    distillTargets: ["87个自建 Skill 覆盖11个领域的「AI 产品方法论」可蒸馏为完整 AI 创业 Skill 套件", "CLAUDE.md 中14条自定义规则可编码为标准化团队协作 Skill", "11个领域的工具链编排经验可蒸馏为「全栈 AI 运营」方法论"],
+    moats: ["跨11个领域的系统性整合能力", "INFJ 特质驱动的产品直觉与用户同理心", "172个 skill 构成的「AI 协作肌肉记忆」"],
+    risks: ["身体在场评分偏低（45/100），限制线下高价值机会", "11个领域广度需警惕样样通样样松"],
+    actions: ["30天：蒸馏3个核心工作流为开源 Skill", "60天：选1个垂直领域发布深度案例研究", "90天：组织2次线下 AI 工作坊"]
+  },
+  scanSummary: { totalSkills: 172, customSkills: 87, hooksCount: 6, mcpServers: 8, memoryFiles: 32, claudeMdLines: 81, aiCommits: 204, totalCommits: 320 }
+};
+
+// ===== MAIN RENDER =====
+(function() {
+  var D = window.DAMC_DATA;
+  var pcts = D.percentiles || {};
+
+  // Grade calculation
+  var grade;
+  if (D.overall >= 90) grade = 'S';
+  else if (D.overall >= 80) grade = 'A';
+  else if (D.overall >= 70) grade = 'B';
+  else if (D.overall >= 60) grade = 'C';
+  else grade = 'D';
+
+  // ===== PARTICLES =====
+  var particleContainer = document.getElementById('particles');
+  var particlePositions = [
+    {x:5,y:8},{x:15,y:22},{x:28,y:12},{x:42,y:35},{x:55,y:8},{x:68,y:28},
+    {x:78,y:15},{x:88,y:38},{x:12,y:55},{x:32,y:62},{x:52,y:52},{x:72,y:58},
+    {x:92,y:48},{x:8,y:78},{x:25,y:85},{x:45,y:75},{x:65,y:82},{x:82,y:72},
+    {x:95,y:88},{x:18,y:42},{x:38,y:48},{x:58,y:38},{x:75,y:45},{x:85,y:65},
+    {x:48,y:92},{x:62,y:68},{x:35,y:72},{x:22,y:95},{x:90,y:22},{x:50,y:18}
+  ];
+  particlePositions.forEach(function(p, i) {
+    var dot = document.createElement('div');
+    dot.className = 'particle' + (i % 3 === 0 ? ' particle-float' : '');
+    dot.style.left = p.x + '%';
+    dot.style.top = p.y + '%';
+    if (i % 3 === 0) dot.style.animationDelay = (i * 0.4) + 's';
+    if (i % 5 === 0) dot.style.background = 'rgba(0,200,255,0.2)';
+    if (i % 7 === 0) dot.style.background = 'rgba(0,232,157,0.2)';
+    particleContainer.appendChild(dot);
+  });
+
+  // ===== HEADER PILLS =====
+  var pillsHTML = '';
+  if (D.userName) pillsHTML += '<span class="pill">' + D.userName + '</span>';
+  if (D.mbti) pillsHTML += '<span class="pill">' + D.mbti + '</span>';
+  if (D.date) pillsHTML += '<span class="pill">' + D.date + '</span>';
+  document.getElementById('headerPills').innerHTML = pillsHTML;
+
+  // ===== HERO =====
+  document.getElementById('heroEmoji').textContent = D.archetype.emoji;
+  document.getElementById('heroName').textContent = D.archetype.name;
+  document.getElementById('heroTagline').textContent = D.archetype.tagline;
+  document.getElementById('overallScore').textContent = D.overall;
+  document.getElementById('gradeBadge').textContent = 'GRADE ' + grade;
+
+  // Animate score ring
+  var circumference = 2 * Math.PI * 54; // ~339.292
+  var offset = circumference * (1 - D.overall / 100);
+  setTimeout(function() {
+    document.getElementById('scoreRing').style.strokeDashoffset = offset;
+  }, 300);
+
+  // ===== RADAR CHART =====
+  drawRadar(D.scores.D.total, D.scores.A.total, D.scores.M.total, D.scores.C.total);
+
+  // ===== DIMENSION CARDS =====
+  var dimNames = { D: 'Distill', A: 'Anti-AI', M: 'Mastery', C: 'Compass' };
+  var dimColors = { D: 'var(--color-d)', A: 'var(--color-a)', M: 'var(--color-m)', C: 'var(--color-c)' };
+  var subLabels = {
+    D: { expertise: 'Expertise', methodology: 'Methodology', codifiability: 'Codifiability', standardization: 'Standardization', demand: 'Demand' },
+    A: { creativity: 'Creativity', eq: 'EQ', crossDomain: 'Cross-Domain', ambiguity: 'Ambiguity', physical: 'Physical', trust: 'Trust' },
+    M: { environment: 'Environment', skills: 'Skills', automation: 'Automation', memory: 'Memory', advanced: 'Advanced' }
+  };
+
+  var dimGrid = document.getElementById('dimGrid');
+  ['D', 'A', 'M', 'C'].forEach(function(dim) {
+    var s = D.scores[dim];
+    var html = '<div class="dim-card" data-dim="' + dim + '">';
+
+    // Neural connection decoration (3 dots + lines)
+    html += '<svg class="neural-deco" width="40" height="24" viewBox="0 0 40 24">';
+    html += '<line x1="6" y1="12" x2="20" y2="6" stroke="' + dimColors[dim] + '" stroke-width="0.8" opacity="0.5"/>';
+    html += '<line x1="20" y1="6" x2="34" y2="14" stroke="' + dimColors[dim] + '" stroke-width="0.8" opacity="0.5"/>';
+    html += '<circle cx="6" cy="12" r="2.5" fill="' + dimColors[dim] + '" opacity="0.6"/>';
+    html += '<circle cx="20" cy="6" r="2.5" fill="' + dimColors[dim] + '" opacity="0.6"/>';
+    html += '<circle cx="34" cy="14" r="2.5" fill="' + dimColors[dim] + '" opacity="0.6"/>';
+    html += '</svg>';
+
+    html += '<div class="dim-header">';
+    html += '<div class="dim-letter" data-dim="' + dim + '">' + dim + '</div>';
+    html += '<div class="dim-score">' + s.total + '</div>';
+    html += '</div>';
+    html += '<div class="dim-name">' + dimNames[dim] + '</div>';
+
+    if (dim === 'C') {
+      html += '<div class="c-fit">' + (s.fit || '') + '</div>';
+      if (s.paths && s.paths.length) {
+        html += '<ul class="c-paths-list">';
+        s.paths.forEach(function(p) { html += '<li>' + p + '</li>'; });
+        html += '</ul>';
+      }
+    } else {
+      html += '<div class="sub-scores">';
+      var labels = subLabels[dim] || {};
+      var subs = s.subs || {};
+      Object.keys(subs).forEach(function(key) {
+        var val = subs[key];
+        html += '<div class="sub-item">';
+        html += '<span class="sub-label">' + (labels[key] || key) + '</span>';
+        html += '<div class="sub-bar"><div class="sub-bar-fill" data-dim="' + dim + '" data-width="' + val + '"></div></div>';
+        html += '<span class="sub-val">' + val + '</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
+    html += '</div>';
+    dimGrid.innerHTML += html;
+  });
+
+  // Animate bars
+  setTimeout(function() {
+    var fills = document.querySelectorAll('.sub-bar-fill');
+    fills.forEach(function(f) { f.style.width = f.getAttribute('data-width') + '%'; });
+  }, 500);
+
+  // ===== SCAN EVIDENCE =====
+  var ss = D.scanSummary || {};
+  var scanItems = [
+    { num: ss.totalSkills, label: 'Total Skills' },
+    { num: ss.customSkills, label: 'Custom Skills' },
+    { num: ss.hooksCount, label: 'Hooks' },
+    { num: ss.mcpServers, label: 'MCP Servers' },
+    { num: ss.memoryFiles, label: 'Memory Files' },
+    { num: ss.claudeMdLines, label: 'CLAUDE.md Lines' },
+    { num: ss.aiCommits, label: 'AI Commits' },
+    { num: ss.totalCommits, label: 'Total Commits' }
+  ];
+  var scanHTML = '';
+  scanItems.forEach(function(item) {
+    scanHTML += '<div class="scan-capsule">';
+    scanHTML += '<div class="scan-num">' + (item.num || 0) + '</div>';
+    scanHTML += '<div class="scan-label">' + item.label + '</div>';
+    scanHTML += '</div>';
+  });
+  document.getElementById('scanGrid').innerHTML = scanHTML;
+
+  // ===== INSIGHTS =====
+  var ins = D.insights || {};
+  var insightSections = [
+    { key: 'distillTargets', icon: '🧬', title: 'Distill Targets', type: 'distill' },
+    { key: 'moats', icon: '🏰', title: 'Competitive Moats', type: 'moats' },
+    { key: 'risks', icon: '⚠️', title: 'Risk Signals', type: 'risks' },
+    { key: 'actions', icon: '🚀', title: 'Action Roadmap', type: 'actions' }
+  ];
+  var insightsHTML = '';
+  insightSections.forEach(function(sec) {
+    var items = ins[sec.key] || [];
+    if (!items.length) return;
+    insightsHTML += '<div class="insight-section">';
+    insightsHTML += '<div class="insight-title"><span class="insight-title-icon">' + sec.icon + '</span><span>' + sec.title + '</span></div>';
+    insightsHTML += '<ul class="insight-list" data-type="' + sec.type + '">';
+    items.forEach(function(item) { insightsHTML += '<li>' + item + '</li>'; });
+    insightsHTML += '</ul></div>';
+  });
+  document.getElementById('insightsContainer').innerHTML = insightsHTML;
+
+  // ===== PERCENTILE =====
+  var pctDims = [
+    { key: 'D', label: 'D', color: 'var(--color-d)' },
+    { key: 'A', label: 'A', color: 'var(--color-a)' },
+    { key: 'overall', label: 'ALL', color: 'var(--accent)', large: true },
+    { key: 'M', label: 'M', color: 'var(--color-m)' },
+    { key: 'C', label: 'C', color: 'var(--color-c)' }
+  ];
+  var pctHTML = '';
+  pctDims.forEach(function(d) {
+    var val = pcts[d.key] || 0;
+    var isLarge = d.large;
+    var r = isLarge ? 42 : 30;
+    var circ = 2 * Math.PI * r;
+    var off = circ * (1 - val / 100);
+    var size = isLarge ? 96 : 72;
+
+    pctHTML += '<div class="pct-ring-wrap">';
+    pctHTML += '<div class="pct-ring-container' + (isLarge ? ' large' : '') + '">';
+    pctHTML += '<svg viewBox="0 0 ' + size + ' ' + size + '" width="' + size + '" height="' + size + '">';
+    pctHTML += '<circle class="pct-ring-bg" cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + r + '" />';
+    pctHTML += '<circle class="pct-ring-fill" cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + r + '" ';
+    pctHTML += 'stroke="' + d.color + '" stroke-dasharray="' + circ + '" stroke-dashoffset="' + circ + '" ';
+    pctHTML += 'data-target-offset="' + off + '" ';
+    pctHTML += 'style="filter: drop-shadow(0 0 4px ' + d.color + ');" />';
+    pctHTML += '</svg>';
+    pctHTML += '<div class="pct-ring-text">P' + val + '</div>';
+    pctHTML += '</div>';
+    pctHTML += '<div class="pct-label" style="color:' + d.color + '">' + d.label + '</div>';
+    pctHTML += '</div>';
+  });
+  document.getElementById('pctSection').innerHTML = pctHTML;
+
+  // Animate percentile rings
+  setTimeout(function() {
+    var pctFills = document.querySelectorAll('.pct-ring-fill');
+    pctFills.forEach(function(el) {
+      var target = el.getAttribute('data-target-offset');
+      if (target !== null) el.style.strokeDashoffset = target;
+    });
+  }, 600);
+
+  // ===== SHARE BUTTON =====
+  document.getElementById('shareBtn').addEventListener('click', function() {
+    var txt = 'DAMC Neural Flow Report\n' +
+      '────────────────────\n' +
+      D.archetype.emoji + ' ' + D.archetype.name + '\n' +
+      '「' + D.archetype.tagline + '」\n\n' +
+      'Overall: ' + D.overall + '/100  [Grade ' + grade + ']\n\n' +
+      'D (Distill):  ' + D.scores.D.total + '  |  P' + (pcts.D || '?') + '\n' +
+      'A (Anti-AI):  ' + D.scores.A.total + '  |  P' + (pcts.A || '?') + '\n' +
+      'M (Mastery):  ' + D.scores.M.total + '  |  P' + (pcts.M || '?') + '\n' +
+      'C (Compass):  ' + D.scores.C.total + '  |  P' + (pcts.C || '?') + '\n\n' +
+      'Global Rank: Top ' + (101 - (pcts.overall || 0)) + '%\n' +
+      '> Powered by DAMC Model × Claude Code';
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(txt).then(function() {
+        var btn = document.getElementById('shareBtn');
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = 'linear-gradient(135deg, var(--color-c), rgba(0,200,255,0.8))';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.style.background = '';
+        }, 2000);
+      });
+    }
+  });
+})();
+
+// ===== RADAR CHART =====
+function drawRadar(dVal, aVal, mVal, cVal) {
+  var svg = document.getElementById('radar');
+  var cx = 150, cy = 150, maxR = 120;
+  var ns = 'http://www.w3.org/2000/svg';
+
+  // Defs for gradients and filters
+  var defs = document.createElementNS(ns, 'defs');
+
+  // Glow filter
+  var filter = document.createElementNS(ns, 'filter');
+  filter.setAttribute('id', 'radarGlow');
+  filter.innerHTML = '<feGaussianBlur stdDeviation="4" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  defs.appendChild(filter);
+
+  // Gradient fill for data polygon
+  var grad = document.createElementNS(ns, 'linearGradient');
+  grad.setAttribute('id', 'radarFill');
+  grad.setAttribute('x1', '0%'); grad.setAttribute('y1', '0%');
+  grad.setAttribute('x2', '100%'); grad.setAttribute('y2', '100%');
+  grad.innerHTML = '<stop offset="0%" stop-color="rgba(0,200,255,0.15)"/><stop offset="33%" stop-color="rgba(124,92,255,0.12)"/><stop offset="66%" stop-color="rgba(255,77,166,0.10)"/><stop offset="100%" stop-color="rgba(0,232,157,0.12)"/>';
+  defs.appendChild(grad);
+
+  svg.appendChild(defs);
+
+  // Grid levels
+  [0.25, 0.5, 0.75, 1.0].forEach(function(s) {
+    var r = maxR * s;
+    var poly = document.createElementNS(ns, 'polygon');
+    poly.setAttribute('points',
+      cx + ',' + (cy - r) + ' ' +
+      (cx + r) + ',' + cy + ' ' +
+      cx + ',' + (cy + r) + ' ' +
+      (cx - r) + ',' + cy
+    );
+    poly.setAttribute('fill', 'none');
+    poly.setAttribute('stroke', 'rgba(124, 92, 255, 0.08)');
+    poly.setAttribute('stroke-width', '0.5');
+    svg.appendChild(poly);
+  });
+
+  // Axes
+  var axisPoints = [
+    [cx, cy - maxR], [cx + maxR, cy],
+    [cx, cy + maxR], [cx - maxR, cy]
+  ];
+  axisPoints.forEach(function(p) {
+    var line = document.createElementNS(ns, 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', p[0]); line.setAttribute('y2', p[1]);
+    line.setAttribute('stroke', 'rgba(124, 92, 255, 0.06)');
+    line.setAttribute('stroke-width', '0.5');
+    svg.appendChild(line);
+  });
+
+  // Data polygon
+  var vals = [dVal / 100, aVal / 100, mVal / 100, cVal / 100];
+  var pts = [
+    [cx, cy - maxR * vals[0]],
+    [cx + maxR * vals[1], cy],
+    [cx, cy + maxR * vals[2]],
+    [cx - maxR * vals[3], cy]
+  ];
+  var pointsStr = pts.map(function(p) { return p[0] + ',' + p[1]; }).join(' ');
+
+  // Glow fill
+  var glowPoly = document.createElementNS(ns, 'polygon');
+  glowPoly.setAttribute('points', pointsStr);
+  glowPoly.setAttribute('fill', 'url(#radarFill)');
+  glowPoly.setAttribute('stroke', 'rgba(124,92,255,0.2)');
+  glowPoly.setAttribute('stroke-width', '1.5');
+  glowPoly.setAttribute('filter', 'url(#radarGlow)');
+  svg.appendChild(glowPoly);
+
+  // Main stroke with animated drawing
+  var dataPoly = document.createElementNS(ns, 'polygon');
+  dataPoly.setAttribute('points', pointsStr);
+  dataPoly.setAttribute('fill', 'none');
+  dataPoly.setAttribute('stroke', 'rgba(124,92,255,0.6)');
+  dataPoly.setAttribute('stroke-width', '1.5');
+  dataPoly.setAttribute('stroke-linejoin', 'round');
+  // Calculate perimeter for stroke animation
+  var perim = 0;
+  for (var i = 0; i < pts.length; i++) {
+    var next = pts[(i + 1) % pts.length];
+    perim += Math.sqrt(Math.pow(next[0] - pts[i][0], 2) + Math.pow(next[1] - pts[i][1], 2));
+  }
+  dataPoly.style.strokeDasharray = perim;
+  dataPoly.style.strokeDashoffset = perim;
+  dataPoly.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+  svg.appendChild(dataPoly);
+
+  // Animate stroke drawing
+  setTimeout(function() { dataPoly.style.strokeDashoffset = '0'; }, 400);
+
+  // Data points with glowing dots
+  var dotColors = ['#00c8ff', '#ff4da6', '#7c5cff', '#00e89d'];
+  var dotGlows = [
+    'rgba(0,200,255,0.5)',
+    'rgba(255,77,166,0.5)',
+    'rgba(124,92,255,0.5)',
+    'rgba(0,232,157,0.5)'
+  ];
+  pts.forEach(function(p, i) {
+    // Outer glow
+    var glowCirc = document.createElementNS(ns, 'circle');
+    glowCirc.setAttribute('cx', p[0]); glowCirc.setAttribute('cy', p[1]);
+    glowCirc.setAttribute('r', '10');
+    glowCirc.setAttribute('fill', dotGlows[i]);
+    glowCirc.setAttribute('opacity', '0.3');
+    svg.appendChild(glowCirc);
+
+    // Inner dot
+    var circ = document.createElementNS(ns, 'circle');
+    circ.setAttribute('cx', p[0]); circ.setAttribute('cy', p[1]);
+    circ.setAttribute('r', '4');
+    circ.setAttribute('fill', dotColors[i]);
+    circ.setAttribute('stroke', '#030012');
+    circ.setAttribute('stroke-width', '1.5');
+    svg.appendChild(circ);
+  });
+}
+</script>
+</body>
+</html>

@@ -69,36 +69,107 @@ Evaluate my value in the AI era
 
 That's it. DAMC handles the rest — scanning, scoring, and report generation — automatically.
 
+## What's New (v2)
+
+DAMC v2 transforms from a one-time assessment into a **continuous improvement system** with three major new features:
+
+### Re-scan & Progress Tracking
+
+Run `/damc` again and see how you've evolved. DAMC saves each scan locally to `~/.claude/damc-history/` and shows your delta changes on the next run.
+
+```
+📈 Progress Tracking (vs last scan 2026-05-10)
+
+  D Distillation  83 → 83  ↔️ No change
+  A Anti-Distill  76 → 75  ⬇️ -1
+  M AI Mastery    89 → 92  ⬆️ +3
+  C Career        81 → 83  ⬆️ +2
+
+  Overall: 82 → 83 ⬆️
+```
+
+Your HTML report now includes a Progress section with trend sparklines when you have 3+ scans.
+
+### Smart Skill Recommendations
+
+DAMC doesn't just score you — it tells you **exactly what to do**. Based on your weakest sub-dimensions, it recommends specific skills to install, commands to run, and habits to build.
+
+```
+🎯 Smart Recommendations (based on your weakest sub-dimensions)
+
+  📉 Physical Presence (45/100) — A dimension gap
+     → Join 1 offline tech community event per month
+     → Try installing: meetup-finder, event-scheduler
+
+  📉 Memory System (13/25) — M dimension gap
+     → You only have 3 memory types — add project and reference types
+     → Run: claude memory add --type project "..."
+
+  📉 Standardization (72/100) — D dimension gap
+     → You have 58 projects but few project-level CLAUDE.md files
+     → Add dedicated CLAUDE.md for your top 5 projects
+```
+
+Every recommendation is concrete, data-backed, and immediately actionable — not generic advice.
+
+### Team Leaderboard
+
+**找到你身边与 Agent 协作最6的人！** (Find the best Agent collaborator around you!)
+
+Join a team with a group code and see how you rank against your colleagues or community members.
+
+```
+🏆 ACME-CORP Leaderboard (12 members)
+
+  1. 🥇 Jayden   83 pts  AI Architect
+  2. 🥈 Alex     76 pts  AI-Native Creator
+  3. 🥉 Sarah    71 pts  Efficiency Machine
+  ...
+
+  Your rank: #1 / 12 🎉
+```
+
+- Create or join a team with a simple code (e.g., "ACME-CORP", "UCWS-2026")
+- Privacy-first: only your total score and archetype are shared with the team
+- Optionally share your installed skills list with teammates
+- Team leaderboard page: `vibergo.space/damc/team/{CODE}`
+
+The team feature turns DAMC into a **viral loop** — when one person shares their score, the whole team wants to try it.
+
+---
+
 ## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    DAMC Workflow                         │
-│                                                         │
-│  ┌──────────┐   ┌──────────┐   ┌──────────┐            │
-│  │  Phase 1  │──▶│  Phase 2  │──▶│  Phase 3  │           │
-│  │   SCAN    │   │  PROFILE  │   │   SCORE   │           │
-│  │           │   │           │   │           │           │
-│  │ • Skills  │   │ 3 Quick   │   │ Scoring   │           │
-│  │ • Config  │   │ Questions │   │ Algorithm │           │
-│  │ • Memory  │   │           │   │ (22 sub-  │           │
-│  │ • Hooks   │   │ • Role    │   │ dimensions│           │
-│  │ • MCP     │   │ • Output  │   │  mapped)  │           │
-│  │ • Git     │   │ • MBTI    │   │           │           │
-│  └──────────┘   └──────────┘   └──────────┘            │
-│        │                              │                  │
-│        ▼                              ▼                  │
-│  ┌──────────┐                  ┌──────────┐             │
-│  │  Phase 4  │◀─────────────── │  Phase 5  │             │
-│  │  REPORT   │                 │  UPLOAD   │             │
-│  │           │                 │ (optional) │             │
-│  │ • HTML    │                 │           │             │
-│  │ • Radar   │                 │ Scores    │             │
-│  │ • Career  │                 │ only —    │             │
-│  │   Paths   │                 │ never raw │             │
-│  └──────────┘                 │ content   │             │
-│                                └──────────┘             │
-└─────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                       DAMC v2 Workflow                             │
+│                                                                   │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │  Phase 1  │─▶│ Phase 1.5 │─▶│  Phase 2  │─▶│  Phase 3  │         │
+│  │   SCAN    │  │ HISTORY   │  │  PROFILE  │  │   SCORE   │         │
+│  │           │  │  CHECK    │  │           │  │           │         │
+│  │ • Skills  │  │           │  │ 3 Quick   │  │ Scoring   │         │
+│  │ • Config  │  │ • Load    │  │ Questions │  │ Algorithm │         │
+│  │ • Memory  │  │   prev    │  │           │  │ (22 sub-  │         │
+│  │ • Hooks   │  │   scores  │  │ • Role    │  │ dimensions│         │
+│  │ • MCP     │  │ • Calc    │  │ • Output  │  │  mapped)  │         │
+│  │ • Git     │  │   deltas  │  │ • MBTI    │  │           │         │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘          │
+│                                                   │                │
+│                                                   ▼                │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │  Phase 5  │─▶│ Phase 4.8 │◀─│  Phase 4  │◀─│Phase 3.5  │         │
+│  │  UPLOAD   │  │   TEAM    │  │  REPORT   │  │  SMART    │         │
+│  │ (optional)│  │LEADERBOARD│  │           │  │  RECS     │         │
+│  │           │  │           │  │ • HTML    │  │           │         │
+│  │ Scores +  │  │ • Join    │  │ • Radar   │  │ • Weakest │         │
+│  │ group_code│  │   team    │  │ • Career  │  │   dims    │         │
+│  │ → API     │  │ • Show    │  │ • Progress│  │ • Skills  │         │
+│  │           │  │   rank    │  │ • Recs    │  │ • Actions │         │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘          │
+│                                                                   │
+│  💾 Save snapshot → ~/.claude/damc-history/scan-{date}.json       │
+└───────────────────────────────────────────────────────────────────┘
 ```
 
 ### Phase 1: Automated Scan (Zero User Input)
@@ -120,9 +191,17 @@ DAMC scans your Claude Code environment silently:
 2. **What's your core output?** (e.g., code, documents, designs, decisions)
 3. **Your MBTI type?** (optional — skip if you don't know)
 
+### Phase 1.5: History Check (NEW)
+
+Checks `~/.claude/damc-history/` for previous scan results. If found, calculates delta changes for each dimension and prepares progress tracking data.
+
 ### Phase 3: Scoring Engine
 
 22 sub-dimensions scored across 4 dimensions, producing an overall 0-100 score and one of 8 career archetypes.
+
+### Phase 3.5: Smart Recommendations (NEW)
+
+Analyzes the 3 weakest sub-dimensions and generates specific, actionable recommendations — including exact skills to install, commands to run, and habits to build.
 
 ### Phase 4: Visual Report
 
@@ -130,8 +209,18 @@ A beautiful, self-contained HTML report with:
 - Radar chart visualization
 - Animated score bars
 - Career archetype analysis
-- Actionable recommendations
+- **Progress tracking with trend sparklines** (NEW)
+- **Personalized skill recommendations** (NEW)
+- **Team leaderboard** (NEW, if joined)
 - Shareable format
+
+### Phase 4.8: Team Leaderboard (NEW)
+
+Users can join a team by entering a group code. The platform returns a ranked leaderboard showing who has the highest DAMC score in the team.
+
+### Phase 5: Platform Upload (Optional)
+
+Upload payload now includes optional `group_code` and `display_name` fields. API response includes leaderboard rank when a team is joined.
 
 ## The DAMC Framework
 
@@ -224,6 +313,12 @@ damc/
 ├── README.md                   # This file (English)
 ├── README.zh-CN.md             # Chinese version
 └── LICENSE                     # MIT License
+
+Local data (created at runtime):
+~/.claude/damc-history/         # Progress tracking history
+├── scan-2026-04-15.json        # Timestamped score snapshots
+├── scan-2026-05-10.json
+└── scan-2026-05-25.json
 ```
 
 ### Key Technical Decisions
@@ -250,9 +345,21 @@ DAMC is designed for global adoption:
 
 | Tier | Features | Model |
 |------|----------|-------|
-| **Free (LITE)** | 4-dimension scores + archetype + local HTML report | Open source skill |
-| **Pro** | 22 sub-dimension deep dive + distillable skills list + moat analysis + 90-day action plan | Platform (damc.ai) |
-| **Enterprise** | Team analytics, department benchmarking, workforce transformation insights | B2B SaaS |
+| **Free (LITE)** | 4-dimension scores + archetype + local HTML report + progress tracking + smart recommendations | Open source skill |
+| **Pro** | 22 sub-dimension deep dive + distillable skills list + moat analysis + 90-day action plan + team leaderboard | Platform (damc.ai) |
+| **Enterprise** | Team analytics, department benchmarking, workforce transformation insights, org-wide DAMC rankings | B2B SaaS |
+
+### The Viral Loop
+
+```
+User runs /damc → Gets score + archetype → Shares with team
+    ↓
+Team members try /damc → Join team leaderboard → Compete & improve
+    ↓
+Re-scan shows progress → User shares improvement → More people join
+    ↓
+"找到你身边与 Agent 协作最6的人！" → Organic growth engine
+```
 
 ## Demo
 
@@ -291,6 +398,18 @@ Quick profile questions...
 
   Archetype: 🏆 AI Architect
   "Deep expertise + irreplaceable skills + AI fluency = top of the food chain"
+
+📈 Progress Tracking (vs last scan 2026-05-10)
+  D 78 → 78  ↔️  |  A 60 → 62  ⬆️ +2  |  M 82 → 85  ⬆️ +3  |  C 63 → 65  ⬆️ +2
+  Overall: 71 → 72 ⬆️
+
+🎯 Smart Recommendations
+  📉 Physical Presence (40/100) → Join 1 offline tech community event/month
+  📉 Memory System (12/25) → Run: claude memory add --type project "..."
+  📉 Cross-domain (68/100) → Try skills: seo-audit, geo, xiaohongshu
+
+👥 Team: ACME-CORP — Rank #1 / 12 🎉
+  🔗 vibergo.space/damc/team/ACME-CORP
 
   📄 Full report saved: ~/Desktop/DAMC-Report-2026-05-25.html
 ```

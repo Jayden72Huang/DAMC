@@ -52,46 +52,90 @@
 
 > "30 seconds. From trigger to full career assessment."
 
-### [2:30 - 3:30] Show the Report
+### [2:30 - 3:15] Show the Report + Progress Tracking
 
 **[Open HTML report in browser]**
 
 > "Here's my report. I'm an AI Architect — high expertise, high irreplaceability, high AI fluency.
 >
-> But look at this — my cross-domain thinking score is only 68. That's my biggest gap.
-> And DAMC tells me exactly what to do about it in the next 90 days.
+> But here's what makes DAMC different from any other assessment tool..."
+
+**[Point to Progress section]**
+
+> "This is my **3rd scan**. Look at the progress tracking — my M score went from 82 to 92 in six weeks.
+> That's because DAMC told me exactly what was missing: I had no hooks configured, and my memory system was bare.
+> I followed the recommendations, and the numbers moved."
+
+```
+📈 Progress: M 82 → 89 → 92  ⬆️ +10 since first scan
+```
+
+> "DAMC isn't a one-time test. It's a **growth engine**."
+
+### [3:15 - 3:45] Smart Recommendations — The "What to Do" Moment
+
+**[Scroll to Recommendations section]**
+
+> "DAMC doesn't just score you — it tells you **exactly what to do**.
 >
-> This isn't a personality test. It's a career diagnostic built on real data."
-
-**[Scroll to insights section]**
-
-> "It even identifies which of my skills are worth distilling into AI,
-> and which abilities are my moat — the things AI can never replicate."
-
-### [3:30 - 4:15] The Share Moment
-
-> "And because everyone loves sharing their results..."
-
-**[Click 'Copy Share Card' button]**
-
-> "One click — ready for Twitter or LinkedIn.
-> This is how DAMC grows: people share their archetype like they share their MBTI type."
-
-### [4:15 - 4:45] Business Model & Vision
-
-> "DAMC has three tiers:
-> - **Free**: Full local report via Claude Code skill — open source
-> - **Pro**: Platform with historical tracking, deeper analysis
-> - **Enterprise**: Team benchmarking — 'How AI-ready is your engineering department?'
+> See this? My weakest sub-dimension is 'Physical Presence' at 45/100.
+> DAMC recommends specific skills to install, specific commands to run.
+> Not 'improve your soft skills' — that's useless.
+> It says 'install meetup-finder, attend 1 offline event per month.'
 >
-> The framework is language-agnostic, role-universal, and works for any AI tool ecosystem.
-> Today it's Claude Code. Tomorrow it's VS Code, Cursor, Windsurf."
+> Every recommendation is backed by your actual scan data."
 
-### [4:45 - 5:00] Close
+```
+🎯 Recommendations:
+  📉 Physical Presence (45/100) → meetup-finder, event-scheduler
+  📉 Memory System (13/25) → claude memory add --type project "..."
+  📉 Standardization (72/100) → Add CLAUDE.md to your top 5 projects
+```
+
+### [3:45 - 4:15] Team Leaderboard — The Viral Moment
+
+> "Now imagine your whole team uses this.
+> Who's the best Agent collaborator in your company?"
+
+**[Show team leaderboard]**
+
+> "DAMC has a team leaderboard. Create a team code — like ACME-CORP — share it with your colleagues,
+> and see who ranks highest.
+>
+> 找到你身边与 Agent 协作最6的人！
+> — Find the best Agent collaborator around you!"
+
+```
+🏆 UCWS-2026 Leaderboard (8 members)
+  1. 🥇 Jayden   83 pts  AI Architect
+  2. 🥈 Alex     76 pts  AI-Native Creator
+  3. 🥉 Sarah    71 pts  Efficiency Machine
+```
+
+> "When one person shares their score, the whole team wants to try it.
+> That's the viral loop. DAMC grows itself."
+
+### [4:15 - 4:40] The Punchline
+
+> "Let me recap what DAMC is:
+>
+> **Not a one-time test** — it's a continuous improvement system with progress tracking.
+> **Not just scores** — it gives you actionable, data-driven recommendations.
+> **Not just individual** — team leaderboards turn it into a shared experience.
+>
+> DAMC has three tiers:
+> - **Free**: Full local assessment + progress tracking + recommendations — open source skill
+> - **Pro**: Platform with team leaderboards, deeper sub-dimension analysis
+> - **Enterprise**: Organization-wide DAMC rankings, workforce AI-readiness benchmarking
+>
+> Today it's Claude Code. Tomorrow it's every AI tool ecosystem."
+
+### [4:40 - 5:00] Close
 
 > "In the AI era, knowing your value is the first step to multiplying it.
+> DAMC doesn't just tell you where you stand — it shows you where to go, tracks your progress, and brings your team along.
 >
-> DAMC. Know your worth.
+> **DAMC isn't a test. It's a growth engine.**
 >
 > Thank you."
 
@@ -112,11 +156,22 @@ If a judge volunteers:
 
 ---
 
+## Key Demo Talking Points
+
+| Feature | Why It's Impressive | Demo Line |
+|---------|-------------------|-----------|
+| Progress Tracking | Shows DAMC has retention value | "This is my 3rd scan — look at my M score growth" |
+| Smart Recommendations | Proves it's not just a score | "DAMC tells you exactly what skill to install" |
+| Team Leaderboard | The viral loop | "Who's the best Agent collaborator in your company?" |
+| All three together | The product story | "DAMC isn't a test. It's a growth engine." |
+
 ## Backup Plans
 
 | Issue | Backup |
 |-------|--------|
-| Network fails | Local mode works fully offline |
+| Network fails | Local mode works fully offline (progress + recs still work) |
 | Claude Code not available | Show pre-recorded video of the flow |
 | Judge has no Claude Code | Use your own machine, ask them 3 questions verbally |
 | Report template error | Pre-generated HTML report ready to open |
+| No history data for demo | Pre-seed `~/.claude/damc-history/` with 2 previous scans |
+| Team API down | Show mock leaderboard output, emphasize local features |
