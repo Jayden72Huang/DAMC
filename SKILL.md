@@ -55,7 +55,25 @@ description: |
 
 ### Phase 1: 自动扫描（核心 — 不依赖问卷）
 
-**扫描以下数据源，静默执行，不需要用户参与：**
+**扫描以下数据源，实时播报进度，不需要用户参与。**
+
+**必须实时输出扫描进度**（这是用户感知的关键仪式感）：
+
+```
+🔍 正在扫描你的 AI 环境...
+
+  ├─ CLAUDE.md ············ {行数} 行，{规则数} 条自定义规则 ✅
+  ├─ Skills ················ 发现 {总数} 个（{自建数} 个自建！）✅
+  ├─ Memory ··············· {文件数} 个记忆文件，{类型数} 种类型 ✅
+  ├─ Hooks ················ {数量} 个自动化钩子 ✅
+  ├─ MCP Servers ·········· {数量} 个外部服务集成 ✅
+  ├─ Git History ·········· {AI提交数}/{总提交数} 提交含 AI 协作 ✅
+  └─ Dev Tools ············ {工具列表} 已安装 ✅
+
+  ⏱️ 扫描完成（{耗时} 秒），发现 {类别数} 类 {信号数} 个评估信号
+```
+
+**每扫完一项就立即输出一行**，不要等全部扫完才一起显示。让用户（和 Demo Day 观众）实时看到扫描过程。
 
 #### 1.1 Claude Code 环境扫描
 
@@ -121,13 +139,50 @@ git log --all --author 过滤
 
 **读取 `references/career-archetypes.md` 匹配用户的 8 种画像之一。**
 
-### Phase 4: 生成可视化报告（本地 LITE 版）
+### Phase 4: 生成完整可视化报告
 
 1. 读取 `templates/report.html` 模板
-2. 将评分数据填入模板中的 `window.DAMC_DATA` 对象
-3. 将 LITE 版 HTML 保存到 `~/Desktop/DAMC-Report-{YYYY-MM-DD}.html`
-   - LITE 版只含 4 维总分和画像，不含子维度详情、可蒸馏清单、护城河识别、行动建议
-4. 完整版需在 damc.ai 平台解锁（见 Phase 5）
+2. 将**完整**评分数据填入模板中的 `window.DAMC_DATA` 对象，**必须包含所有字段**：
+   - `scores`：4 个维度的总分 **+ 全部 22 个子维度分数**
+   - `insights.distillTargets`：2-4 项值得蒸馏的具体能力（基于扫描发现的自建 skill、高频工作流等推断）
+   - `insights.moats`：2-3 项 AI 最难替代的护城河（基于 A 维度高分子项）
+   - `insights.risks`：1-2 项最大风险点（基于最低分的子维度）
+   - `insights.actions`：3 项 90 天行动建议（针对最大短板，具体可执行）
+   - `scanSummary`：完整扫描统计数据
+   - `percentiles`：全球基准百分位（见评分框架中的百分位计算方法）
+3. 将完整版 HTML 保存到 `~/Desktop/DAMC-Report-{YYYY-MM-DD}.html`
+
+**关键原则**：insights 必须具体，不能用通用占位符。例如：
+- ✅ "你的 SEO + 内容创作工作流（article-rewriter → programmatic-seo → backlink）可以蒸馏为完整的 SEO 自动化 Skill"
+- ❌ "值得蒸馏的能力1"
+
+### Phase 4.5: 生成社交分享卡
+
+生成报告后，额外生成一段 HTML 分享卡代码，用户可以截图或直接分享：
+
+```
+📤 分享你的 DAMC 画像
+
+  ┌─────────────────────────────────┐
+  │                                 │
+  │    🏆 AI 架构师                  │
+  │                                 │
+  │    D ████████░░ 78              │
+  │    A ██████░░░░ 62              │
+  │    M █████████░ 85              │
+  │    C ██████░░░░ 65              │
+  │                                 │
+  │    Overall: 72/100 · Grade A    │
+  │    Top 8% of AI-era builders    │
+  │                                 │
+  │    测测你的 → damc.ai            │
+  │                                 │
+  └─────────────────────────────────┘
+
+  📋 已复制到剪贴板（纯文本版，可直接粘贴到 Twitter/LinkedIn）
+```
+
+同时在 `~/Desktop/` 保存一个 `DAMC-Share-{date}.html` 分享卡页面（1080x1080 正方形布局，适合社交媒体截图），使用报告同款暗色主题。
 
 ### Phase 5: 上传分数 + 生成平台链接（仅同意上传时）
 
@@ -209,11 +264,18 @@ window.DAMC_DATA = {
     M: { total: 85, subs: { environment: 18, skills: 22, automation: 16, memory: 12, advanced: 17 } },
     C: { total: 65, fit: "AI-Augmented Expert", paths: ["推荐路径1", "推荐路径2"] }
   },
+  percentiles: {
+    D: 92,        // 百分位排名，基于全球基准分布计算
+    A: 69,        // 参见 scoring-framework.md 百分位计算方法
+    M: 98,
+    C: 83,
+    overall: 91
+  },
   insights: {
-    distillTargets: ["值得蒸馏的能力1", "值得蒸馏的能力2"],
-    moats: ["护城河1", "护城河2"],
-    risks: ["风险点1"],
-    actions: ["行动建议1", "行动建议2", "行动建议3"]
+    distillTargets: ["你的 SEO 内容工作流可蒸馏为自动化 Skill", "代码审查方法论可编码为 review checklist"],
+    moats: ["跨领域整合能力（技术+内容+营销三栖）", "社区信任资产和人脉网络"],
+    risks: ["跨域思维评分偏低，可能限制战略性角色转型"],
+    actions: ["每周学习一个非本专业领域的 AI 用例", "把你最高频的 3 个工作流蒸馏为 Claude Code skill", "在社区中建立 AI 导师身份，强化信任资产"]
   },
   scanSummary: {
     totalSkills: 83,

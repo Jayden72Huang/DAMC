@@ -462,6 +462,22 @@
     <div id="insights-content"></div>
   </div>
 
+  <!-- Percentile Summary -->
+  <div class="percentile-banner animate-in delay-5" id="percentile-section" style="text-align:center;padding:32px 24px;margin-bottom:40px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);">
+    <div style="font-size:13px;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Global Benchmark</div>
+    <div style="font-size:48px;font-weight:800;letter-spacing:-2px;" id="pct-overall"></div>
+    <div style="font-size:15px;color:var(--text-secondary);margin-top:4px;" id="pct-label"></div>
+    <div style="display:flex;justify-content:center;gap:32px;margin-top:24px;" id="pct-dims"></div>
+  </div>
+
+  <!-- Share Card -->
+  <div class="share-section animate-in delay-6" style="text-align:center;margin-bottom:40px;">
+    <button id="share-btn" style="background:linear-gradient(135deg,rgba(0,212,255,0.15),rgba(255,0,110,0.15));border:1px solid var(--border);border-radius:12px;color:var(--text-primary);padding:14px 32px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.borderColor='var(--border)'">
+      📤 Copy Share Card to Clipboard
+    </button>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:8px;">Paste to Twitter, LinkedIn, or WeChat</div>
+  </div>
+
   <!-- Footer -->
   <div class="footer animate-in delay-6">
     <div>Generated on <span id="gen-date"></span></div>
@@ -591,6 +607,52 @@ window.DAMC_DATA = {{DAMC_DATA_JSON}};
     div.innerHTML = '<h3>' + g.icon + ' ' + g.title + '</h3><ul>' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>';
     insContent.appendChild(div);
   });
+
+  // Percentiles
+  const pct = D.percentiles || {};
+  if (pct.overall) {
+    document.getElementById('pct-overall').innerHTML = 'Top ' + (100 - pct.overall) + '%';
+    document.getElementById('pct-label').textContent = 'of AI-era professionals globally';
+    const pctDims = document.getElementById('pct-dims');
+    const dimColors = { D: 'var(--color-d)', A: 'var(--color-a)', M: 'var(--color-m)', C: 'var(--color-c)' };
+    const dimNames = { D: 'Distill', A: 'Anti', M: 'Mastery', C: 'Compass' };
+    ['D','A','M','C'].forEach(k => {
+      if (!pct[k]) return;
+      const el = document.createElement('div');
+      el.style.cssText = 'text-align:center;';
+      el.innerHTML = '<div style="font-size:11px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;">' + dimNames[k] + '</div><div style="font-size:24px;font-weight:700;color:' + dimColors[k] + ';">' + pct[k] + '%</div>';
+      pctDims.appendChild(el);
+    });
+  } else {
+    document.getElementById('percentile-section').style.display = 'none';
+  }
+
+  // Share Card
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', function() {
+      const arch = D.archetype;
+      const bar = (v) => { const filled = Math.round(v/10); return '█'.repeat(filled) + '░'.repeat(10-filled); };
+      const text = [
+        arch.emoji + ' ' + arch.name + ' — DAMC AI Era Assessment',
+        '',
+        'D ' + bar(D.scores.D.total) + ' ' + D.scores.D.total,
+        'A ' + bar(D.scores.A.total) + ' ' + D.scores.A.total,
+        'M ' + bar(D.scores.M.total) + ' ' + D.scores.M.total,
+        'C ' + bar(D.scores.C.total) + ' ' + D.scores.C.total,
+        '',
+        'Overall: ' + D.overall + '/100 · Grade ' + (document.getElementById('overall-grade')?.textContent || ''),
+        pct.overall ? 'Top ' + (100 - pct.overall) + '% of AI-era builders' : '',
+        '',
+        'Know your worth → github.com/Jayden72Huang/DAMC',
+        '#DAMC #AIEra #KnowYourWorth'
+      ].filter(Boolean).join('\n');
+      navigator.clipboard.writeText(text).then(() => {
+        shareBtn.textContent = '✅ Copied!';
+        setTimeout(() => { shareBtn.textContent = '📤 Copy Share Card to Clipboard'; }, 2000);
+      });
+    });
+  }
 
   // Date
   document.getElementById('gen-date').textContent = D.date;
