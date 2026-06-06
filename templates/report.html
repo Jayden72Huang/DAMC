@@ -7,33 +7,36 @@
 <meta property="og:title" content="DAMC AI时代价值评估报告">
 <meta property="og:description" content="{{ARCHETYPE_TAGLINE}}">
 <meta name="description" content="DAMC 评估报告 — AI时代个人价值自动评估">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Atelier Noir — 暗金高级风，与 damc.space 平台统一 */
-    --bg-primary: #0E0E10;
-    --bg-secondary: #141310;
-    --bg-card: rgba(255,255,255,0.025);
-    --bg-card-hover: rgba(201,169,110,0.06);
-    --border: #38332b;
-    --text-primary: #F2EFE7;
-    --text-secondary: #9C988C;
-    --text-muted: #6B6658;
-    /* 4 维强调色 — 做旧金属色阶（非霓虹） */
-    --color-d: #C9A96E;   /* 主金 · 蒸馏价值 */
-    --color-a: #C0785C;   /* 赤陶铜 · 抗蒸馏 */
-    --color-m: #8FA06A;   /* 橄榄金 · AI 驾驭 */
-    --color-c: #7C97B5;   /* 钢蓝灰 · 职业适配 */
-    --color-d-dim: rgba(201,169,110,0.15);
-    --color-a-dim: rgba(192,120,92,0.15);
-    --color-m-dim: rgba(143,160,106,0.15);
-    --color-c-dim: rgba(124,151,181,0.15);
-    --glow-d: 0 0 18px rgba(201,169,110,0.25);
-    --glow-a: 0 0 18px rgba(192,120,92,0.25);
-    --glow-m: 0 0 18px rgba(143,160,106,0.25);
-    --glow-c: 0 0 18px rgba(124,151,181,0.25);
-    --radius: 14px;
-    --radius-sm: 10px;
-    --font-display: Georgia, 'Times New Roman', 'Songti SC', serif;
+    /* Sakura — 暖色复古证书风，与 damc.space 平台统一 */
+    --bg-primary: #F1E6CB;
+    --bg-secondary: #F7F0DC;
+    --bg-card: #F7F0DC;
+    --bg-card-hover: #EFE4C4;
+    --border: rgba(58,37,22,0.25);
+    --text-primary: #3A2516;
+    --text-secondary: rgba(58,37,22,0.65);
+    --text-muted: rgba(58,37,22,0.42);
+    /* 4 维强调色 — 复古证书印色（蓝/红/绿/金）*/
+    --color-d: #3F8BC4;   /* 蓝 · 蒸馏价值 */
+    --color-a: #E5392A;   /* 红 · 抗蒸馏 */
+    --color-m: #3D9F47;   /* 绿 · AI 驾驭 */
+    --color-c: #F0BC2A;   /* 金黄 · 职业适配 */
+    --color-d-dim: rgba(63,139,196,0.15);
+    --color-a-dim: rgba(229,57,42,0.15);
+    --color-m-dim: rgba(61,159,71,0.15);
+    --color-c-dim: rgba(240,188,42,0.15);
+    --glow-d: none;
+    --glow-a: none;
+    --glow-m: none;
+    --glow-c: none;
+    --radius: 8px;
+    --radius-sm: 6px;
+    --font-display: "Big Shoulders Display", "Songti SC", Georgia, serif;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -61,7 +64,7 @@
     position: absolute;
     top: -100px; left: 50%; transform: translateX(-50%);
     width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(201,169,110,0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(229,57,42,0.05) 0%, transparent 70%);
     pointer-events: none;
   }
   .badge {
@@ -233,7 +236,7 @@
   .sub-score .bar-track {
     flex: 1;
     height: 6px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(58,37,22,0.12);
     border-radius: 3px;
     overflow: hidden;
   }
@@ -322,7 +325,7 @@
   }
   .insight-group.distill li::before { background: var(--color-d); box-shadow: var(--glow-d); }
   .insight-group.moat li::before { background: var(--color-a); box-shadow: var(--glow-a); }
-  .insight-group.risk li::before { background: #ff4444; box-shadow: 0 0 20px rgba(255,68,68,0.3); }
+  .insight-group.risk li::before { background: #E5392A; box-shadow: none; }
   .insight-group.action li::before { background: var(--color-m); box-shadow: var(--glow-m); }
   .insight-group.action li {
     color: var(--text-primary);
@@ -504,7 +507,7 @@ window.DAMC_DATA = {{DAMC_DATA_JSON}};
   document.getElementById('overall-num').textContent = D.overall;
 
   const gradeEl = document.getElementById('overall-grade');
-  const GRADE_COLORS = { S: '#8FA06A', A: '#C9A96E', B: '#7C97B5', C: '#C0785C', D: '#B5654A', F: '#9A4A3A' };
+  const GRADE_COLORS = { S: '#3D9F47', A: '#3F8BC4', B: '#F0BC2A', C: '#E08A2A', D: '#E5392A', F: '#9A2A1A' };
   let grade;
   if (D.overall >= 90) grade = 'S';
   else if (D.overall >= 75) grade = 'A';
@@ -638,12 +641,12 @@ function drawRadar(d, a, m, c) {
       [cx, cy + rr],
       [cx - rr, cy]
     ].map(p => p.join(',')).join(' ');
-    gridHTML += '<polygon points="' + points + '" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+    gridHTML += '<polygon points="' + points + '" fill="none" stroke="rgba(58,37,22,0.12)" stroke-width="1"/>';
   });
 
   // Axes
-  gridHTML += '<line x1="' + cx + '" y1="' + (cy - r) + '" x2="' + cx + '" y2="' + (cy + r) + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
-  gridHTML += '<line x1="' + (cx - r) + '" y1="' + cy + '" x2="' + (cx + r) + '" y2="' + cy + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+  gridHTML += '<line x1="' + cx + '" y1="' + (cy - r) + '" x2="' + cx + '" y2="' + (cy + r) + '" stroke="rgba(58,37,22,0.12)" stroke-width="1"/>';
+  gridHTML += '<line x1="' + (cx - r) + '" y1="' + cy + '" x2="' + (cx + r) + '" y2="' + cy + '" stroke="rgba(58,37,22,0.12)" stroke-width="1"/>';
 
   // Data polygon
   const pts = [
@@ -664,15 +667,15 @@ function drawRadar(d, a, m, c) {
 
   svg.innerHTML = '<defs>' +
     '<linearGradient id="radarGrad" x1="0%" y1="0%" x2="100%" y2="100%">' +
-    '<stop offset="0%" stop-color="rgba(201,169,110,0.14)"/>' +
-    '<stop offset="50%" stop-color="rgba(192,120,92,0.08)"/>' +
-    '<stop offset="100%" stop-color="rgba(143,160,106,0.12)"/>' +
+    '<stop offset="0%" stop-color="rgba(63,139,196,0.18)"/>' +
+    '<stop offset="50%" stop-color="rgba(229,57,42,0.12)"/>' +
+    '<stop offset="100%" stop-color="rgba(61,159,71,0.16)"/>' +
     '</linearGradient>' +
     '<linearGradient id="radarStroke" x1="0%" y1="0%" x2="100%" y2="100%">' +
-    '<stop offset="0%" stop-color="rgba(201,169,110,0.85)"/>' +
-    '<stop offset="33%" stop-color="rgba(192,120,92,0.85)"/>' +
-    '<stop offset="66%" stop-color="rgba(143,160,106,0.85)"/>' +
-    '<stop offset="100%" stop-color="rgba(124,151,181,0.85)"/>' +
+    '<stop offset="0%" stop-color="rgba(63,139,196,0.9)"/>' +
+    '<stop offset="33%" stop-color="rgba(229,57,42,0.9)"/>' +
+    '<stop offset="66%" stop-color="rgba(61,159,71,0.9)"/>' +
+    '<stop offset="100%" stop-color="rgba(240,188,42,0.9)"/>' +
     '</linearGradient>' +
     '</defs>' + gridHTML;
 }
