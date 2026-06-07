@@ -400,6 +400,23 @@ Response: { "token": "aB7xK9", "url": "https://damc.space/r/aB7xK9" }
 
 > 绑定逻辑平台端已实现（`ReportCard` 自动 bind + `/api/reports/bind` / `/api/reports/[slug]/claim`），skill 端**只需在终端把绑定引导讲清楚**（见「输出规范」中的 🔗 绑定行），不要尝试从 CLI 直接传登录态。
 
+#### Phase 5.1: 生成扫码登录二维码
+
+拿到 `{url}` 后，生成终端二维码，方便用户用手机扫码直达报告页登录绑定（三级 fallback，确保任何环境都能出图）：
+
+```bash
+URL="{url}"  # 替换为 Phase 5 返回的报告链接
+if command -v qrencode >/dev/null 2>&1; then
+  qrencode -t ANSIUTF8 "$URL"
+elif python3 -c "import qrcode" 2>/dev/null; then
+  python3 -c "import qrcode; qr=qrcode.QRCode(border=1); qr.add_data('$URL'); qr.make(); qr.print_ascii(invert=True)"
+else
+  echo "（未检测到 qrencode / python qrcode，用户可直接复制下方链接在浏览器打开）"
+fi
+```
+
+把输出的二维码填入最终汇总的 `{qrcode}` 占位处。扫码打开 → GitHub 登录 → 自动绑定报告 + 认领 Skills。
+
 ### Phase 6: Skills 扫描与上架（仅同意上传时）
 
 **在 Phase 5 完成后执行。扫描用户本地已创建的 Skills，分析其价值，让用户选择是否上架到 DAMC 技能商城。**
@@ -581,9 +598,12 @@ window.DAMC_DATA = {
   扫描摘要: {agentsCount} Agents · {totalSkills} Skills ({customSkills} 自建) · {mcpServers} MCP · {memoryFiles} 记忆
 
   📄 本地报告：~/Desktop/DAMC-Report-{date}.html
+
+  📱 扫码在手机/浏览器打开，GitHub 登录即保存到账号（自动认领报告 + Skills）：
+{qrcode}
   🔗 在线报告：{url}
-     ↳ 平台额外展示：22 子维度详情 · 历史对比曲线 · 数据驱动的深度分析
-  📋 Skills 草稿：{N} 个已提交 → 去 damc.space/dashboard 确认上架
+     ↳ 平台额外展示：22 子维度 · 历史对比 · Skills 上架 CTA · 团队排名邀请
+  📋 Skills 草稿：{N} 个已提交 → 扫码登录后在 Dashboard 一键上架
 ```
 
 **说明：**
