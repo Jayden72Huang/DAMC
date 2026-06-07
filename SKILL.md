@@ -390,6 +390,16 @@ Response: { "token": "aB7xK9", "url": "https://damc.space/r/aB7xK9" }
 - 终端只显示本地摘要
 - 告知用户：「平台暂不可达，已生成本地报告」
 
+#### 5.1 账号绑定（claim 流程 — 关键）
+
+**`/api/scan` 是 CLI 匿名上传，平台无法从命令行拿到登录态，所以新建的报告默认「未绑定任何账号」。** 报告要归属到用户的 GitHub 账号、进入排行榜/团队/Dashboard，必须由用户在浏览器完成一次绑定：
+
+1. 打开报告链接 `{url}`（即 `https://damc.space/r/{token}`）
+2. 若未登录 → 页面显示「用 GitHub 登录绑定」按钮 → 点击登录
+3. 登录后回到报告页 → 前端**自动**调用 `/api/reports/bind` 把该报告绑定到当前账号（仅当报告尚未被绑定时生效）
+
+> 绑定逻辑平台端已实现（`ReportCard` 自动 bind + `/api/reports/bind` / `/api/reports/[slug]/claim`），skill 端**只需在终端把绑定引导讲清楚**（见「输出规范」中的 🔗 绑定行），不要尝试从 CLI 直接传登录态。
+
 ### Phase 6: Skills 扫描与上架（仅同意上传时）
 
 **在 Phase 5 完成后执行。扫描用户本地已创建的 Skills，分析其价值，让用户选择是否上架到 DAMC 技能商城。**
