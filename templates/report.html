@@ -385,6 +385,57 @@
     text-transform: uppercase;
   }
 
+  /* CTA 区：Skills 上架 + 团队排名 */
+  .cta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .cta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .cta-card h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .cta-card p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+  .cta-skill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .cta-skill-name { flex: 1; font-weight: 600; }
+  .cta-skill-val { font-size: 12px; color: var(--text-secondary); }
+  .cta-btn {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 12px 24px;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
   /* Responsive */
   @media (max-width: 640px) {
     .container { padding: 24px 16px 60px; }
@@ -479,6 +530,9 @@
     <h2>洞察与建议</h2>
     <div id="insights-content"></div>
   </div>
+
+  <!-- CTA: Skills 上架 + 团队排名（上下排列）-->
+  <div class="cta-stack animate-in delay-6" id="cta-section"></div>
 
   <!-- Footer -->
   <div class="footer animate-in delay-6">
@@ -614,6 +668,28 @@ window.DAMC_DATA = {{DAMC_DATA_JSON}};
     div.innerHTML = '<h3>' + g.icon + ' ' + g.title + '</h3><ul>' + items.map(i => '<li>' + i + '</li>').join('') + '</ul>';
     insContent.appendChild(div);
   });
+
+  // CTA：值得上架的 Skills + 组队冲榜（上下排列，链接到 damc.space）
+  const ctaSection = document.getElementById('cta-section');
+  if (ctaSection) {
+    const topSkills = D.topSkills || [];
+    let ctaHTML = '';
+    if (topSkills.length > 0) {
+      ctaHTML += '<div class="cta-card"><h3>💎 值得上架的 Skills</h3>'
+        + '<p>AI 从你的环境识别出这些高价值能力 — 上架到平台即可变现或影响他人</p>';
+      topSkills.forEach(s => {
+        ctaHTML += '<div class="cta-skill"><span>' + (s.emoji || '🧩') + '</span>'
+          + '<span class="cta-skill-name">' + (s.displayName || s.name || '') + '</span>'
+          + (s.score != null ? '<span class="cta-skill-val">估值 ' + s.score + '/100</span>' : '')
+          + '</div>';
+      });
+      ctaHTML += '<a class="cta-btn" href="https://damc.space/dashboard#skills" target="_blank" rel="noopener">去 Dashboard 上架 →</a></div>';
+    }
+    ctaHTML += '<div class="cta-card"><h3>🏆 组队冲榜</h3>'
+      + '<p>邀请同事或好友一起测 DAMC，看谁是团队 AI 战力第一，登上团队排行榜</p>'
+      + '<a class="cta-btn" href="https://damc.space/leaderboard" target="_blank" rel="noopener">创建团队 / 加入 →</a></div>';
+    ctaSection.innerHTML = ctaHTML;
+  }
 
   // Date
   document.getElementById('gen-date').textContent = D.date;

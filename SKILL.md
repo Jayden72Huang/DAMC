@@ -548,7 +548,13 @@ window.DAMC_DATA = {
     claudeMdLines: 150,
     aiCommits: 45,
     totalCommits: 200
-  }
+  },
+  // 值得上架的 Skills（取 Phase 6 分析出的高价值 2-3 个，用于报告底部「上架 CTA」）。
+  // 本地模式或没有自建 Skill 时留空数组 []，该 CTA 区块会自动隐藏。
+  topSkills: [
+    { displayName: "SEO Pipeline Pro", emoji: "🔍", score: 88 },
+    { displayName: "内容改写器", emoji: "✍️", score: 82 }
+  ]
 };
 ```
 
