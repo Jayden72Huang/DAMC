@@ -552,8 +552,9 @@ window.DAMC_DATA = {
   // 值得上架的 Skills（取 Phase 6 分析出的高价值 2-3 个，用于报告底部「上架 CTA」）。
   // 本地模式或没有自建 Skill 时留空数组 []，该 CTA 区块会自动隐藏。
   topSkills: [
-    { displayName: "SEO Pipeline Pro", emoji: "🔍", score: 88 },
-    { displayName: "内容改写器", emoji: "✍️", score: 82 }
+    // 示例占位 — 实际填用户本地扫描出的自建 Skill（取估值最高的 2-3 个）
+    { displayName: "Skill Distiller", emoji: "🧬", score: 88 },
+    { displayName: "Agent Scanner", emoji: "📡", score: 82 }
   ]
 };
 ```
